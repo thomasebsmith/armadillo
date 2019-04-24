@@ -1,0 +1,10 @@
+[package]
+name = "armadillo"
+version = "0.1.0"
+authors = ["Thomas Smith"]
+edition = "2018"
+
+description = "A fast, easy-to-use JavaScript interpreter written in Rust"
+readme = "README.md"
+
+[dependencies]
