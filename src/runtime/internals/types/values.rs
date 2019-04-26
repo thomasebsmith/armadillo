@@ -1,35 +1,21 @@
-use self::object::JSObject;
-use self::string::JSString;
+use super::JSObject;
+use super::JSString;
+use super::JSSymbol;
 
-#[derive(PartialEq)]
-pub struct UUID {
-    static mut next_number: u128 = 0,
-    raw_number: u128,
-}
-
-impl UUID {
-    pub fn new() -> UUID {
-        ++UUID::next_number;
-        UUID {
-            next_number - 1
-        }
-    }
-}
-
-pub enum Value {
+pub enum Value<'a> {
     Boolean(bool),
     Null,
     Number(f64),
-    Object(JSObject),
+    Object(JSObject<'a>),
     String(JSString),
-    Symbol(UUID),
+    Symbol(JSSymbol),
     Undefined,
 }
 
-impl Value {
+impl<'a> Value<'a> {
     pub fn is_primitive(&self) -> bool {
         match self {
-            Object(_) => false,
+            Value::Object(_) => false,
             _ => true,
         }
     }

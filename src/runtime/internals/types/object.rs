@@ -1,78 +1,50 @@
 use std::collections::HashMap;
 
-use self::function::JSFunction;
-use self::object::JSObject;
-use self::string::JSString;
-use self::values::UUID;
-use self::values::Value;
+use super::super::property::PropertyDescriptor;
+use super::JSFunction;
+use super::JSString;
+use super::JSSymbol;
+use super::Value;
 
-enum Key {
+#[derive(PartialEq, Eq, Hash, Clone)]
+pub enum Key {
     String(JSString),
-    Symbol(UUID),
+    Symbol(JSSymbol),
 }
 
-pub struct AttributedValue {
-    value: Value,
-    writable: bool,
-    enumerable: bool,
-    configurable: bool,
-    get: Option<JSFunction>,
-    set: Option<JSFunction>,
-}
-
-impl AttributedValue {
-    pub fn new(value: Value = Undefined) -> AttributedValue {
-        AttributedValue {
-            value: value,
-            writable: false,
-            enumerable: false,
-            configurable: false,
-            get: None,
-            set: None,
-        }
-    }
-
-    pub fn get_value(&self) -> &Value {
-        // TODO
-        self.value
-    }
-
-    pub fn set_value(&mut self, value: Value, receiver: &mut JSObject) {
-        // TODO
-        self.value = value
-        true
-    }
-}
-
-pub enum Prototype {
+pub enum Prototype<'a> {
     Null,
-    Object(&JSObject),
+    Object(&'a JSObject<'a>),
 }
 
-pub struct JSObject {
+pub struct JSObject<'a> {
     function: Option<JSFunction>,
-    map: HashMap<Key, AttributedValue>,
-    prototype: Prototype,
+    map: HashMap<Key, PropertyDescriptor<'a>>,
+    prototype: Prototype<'a>,
 }
 
-impl JSObject {
-    pub fn from_prototype(prototype: Prototype) -> Object {
-        Object {
+impl<'a> JSObject<'a> {
+    pub fn new_from_prototype(prototype: Prototype<'a>) -> Self {
+        Self {
+            function: None,
+            map: HashMap::new(),
             prototype: prototype
         }
     }
 
-    pub fn from_primitive(primitive: Value) -> Object {
-        Object {
-            prototype: Null // TODO
+    pub fn new_from_primitive(primitive: Value) -> Self {
+        Self {
+            function: None,
+            map: HashMap::new(),
+            prototype: Prototype::Null // TODO
         }
     }
 
-    pub fn get_prototype_of(&self) -> Prototype {
-        self.prototype
+    pub fn get_prototype_of(&self) -> &Prototype {
+        &self.prototype
     }
 
-    pub fn set_prototype_of(&mut self, prototype: Prototype) -> bool {
+    pub fn set_prototype_of(&mut self, prototype: Prototype<'a>) -> bool {
         // TODO
         self.prototype = prototype;
         true
@@ -88,38 +60,42 @@ impl JSObject {
         false
     }
 
-    pub fn get_own_property(&self, key: &Key) -> Option<&AttributedValue> {
-        self.map[key]
+    pub fn get_own_property(&self, key: &Key) -> Option<&PropertyDescriptor> {
+        self.map.get(key)
     }
 
-    pub fn define_own_property(&mut self, key: &Key, value: AttributedValue) {
+    pub fn define_own_property(
+        &mut self,
+        key: Key,
+        value: PropertyDescriptor<'a>
+    ) -> bool {
         // TODO
         self.map.insert(key, value);
         true
     }
 
-    pub fn has_property(&self, key: &Key) {
-        self.map.contains(key)
+    pub fn has_property(&self, key: &Key) -> bool {
+        self.map.contains_key(key)
     }
 
     pub fn get(&self, key: &Key, receiver: &mut JSObject) -> &Value {
-        if let attributed_value = &self.map[key] {
+        if let Some(attributed_value) = &self.map.get(key) {
             attributed_value.get_value(receiver)
         }
         else {
-            Undefined
+            &Value::Undefined
         }
     }
 
     pub fn set(
         &mut self,
         key: &Key,
-        value: Value,
+        value: Value<'a>,
         receiver: &mut JSObject
     ) -> bool {
         // TODO
-        if let mut attributed_value = &self.map[key] {
-            attributed_value.set_value(value, receiver)
+        if let Some(descriptor) = self.map.get_mut(key) {
+            descriptor.set_value(value, receiver)
         }
         else {
             false
@@ -132,7 +108,7 @@ impl JSObject {
         true
     }
 
-    pub fn own_property_keys(&self) -> Vec<Key> {
+    pub fn own_property_keys(&self) -> Vec<&Key> {
         self.map.keys().collect()
     }
 }
