@@ -1,6 +1,7 @@
 #![allow(dead_code)]
 #![allow(unused_variables)]
 
+mod parsing;
 mod runtime;
 
 use std::error::Error;
