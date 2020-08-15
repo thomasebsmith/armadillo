@@ -1,15 +1,15 @@
 # Armadillo
 #### A JavaScript interpreter written in Rust
 
-Armadillo is a fast, easy-to-use interpreter for JavaScript. It is written in
-Rust.
+Armadillo is a fast, easy-to-use interpreter for ECMAScript (JavaScript).
+It is written in Rust.
 
 ## Goals
 **Performance**: Armadillo should be as fast as leading JavaScript interpeters
 like SpiderMonkey and V8.
 
 **Compliance**: Armadillo should be completely standards-compliant. Right now,
-Armadillo is targeting the ECMAScript 2018 standard.
+Armadillo is targeting the ECMAScript 2020 standard.
 
 **Code cleanliness**: Armadillo should be thoroughly documented and tested. It
 should be easy for experienced developers to understand what any segment of
@@ -21,3 +21,10 @@ be used through its command line interface.
 ## Project Status
 This project is currently in the earliest stages of development. No working
 interpreter is available yet.
+
+## Quick Start
+```sh
+$ git clone https://github.com/thomasebsmith/armadillo
+$ cd armadillo
+$ cargo run
+```
