@@ -17,3 +17,6 @@ generator.
     an AST. These types should not be used by clients of the `runtime` module.
     - `types`: Contains representations of ECMAScript language and
       specification types that are used internally.
+    - `methods`: Contains method implementations for language and specification
+      types.
+    - `builtins`: Contains objects and values that are ECMAScript built-ins.
