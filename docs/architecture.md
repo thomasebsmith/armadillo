@@ -15,8 +15,8 @@ generator.
   - `interface`: Provides an interface with one function: executing an AST.
   - `internals`: Contains necessary internal types and functions for executing
     an AST. These types should not be used by clients of the `runtime` module.
-    - `types`: Contains representations of ECMAScript language and
-      specification types that are used internally.
+    - `types`: Contains representations of ECMAScript language types.
+    - `spec-types`: Contains specification types that are used internally.
     - `methods`: Contains method implementations for language and specification
       types.
-    - `builtins`: Contains objects and values that are ECMAScript built-ins.
+    - `built-ins`: Contains objects and values that are ECMAScript built-ins.
