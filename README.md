@@ -30,5 +30,5 @@ interpreter is available yet.
 ```sh
 $ git clone https://github.com/thomasebsmith/armadillo
 $ cd armadillo
-$ cargo run
+$ cargo run <options>
 ```
