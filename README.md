@@ -28,7 +28,7 @@ interpreter is available yet.
 
 ## Quick Start
 ```sh
-$ git clone https://github.com/thomasebsmith/armadillo
+$ git clone https://github.com/thomasebsmith/armadillo.git
 $ cd armadillo
 $ cargo run <options>
 ```
