@@ -24,7 +24,8 @@ manipulation of webpages.
 
 ## Project Status
 This project is currently in the earliest stages of development. No working
-interpreter is available yet.
+interpreter is available yet. Implementing the parsing stage is in progress.
+After that, the execution stage will be implemented.
 
 ## Quick Start
 ```sh
